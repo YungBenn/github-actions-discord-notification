@@ -6,19 +6,18 @@ on:
   workflow_dispatch:
 
 env:
-  PRODUCTION_DOMAIN: ssc.sportgather.com
+  PRODUCTION_DOMAIN: www.yungbenn.com
 
 jobs:
   notify-success:
     name: Success Notification
     runs-on: ubuntu-latest
-    if: failure()
     steps:
       - name: Notify Discord - Success
         uses: Ilshidur/action-discord@master
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_USERNAME: "SportGather CI/CD"
+          DISCORD_USERNAME: "YungBenn CI/CD"
           DISCORD_AVATAR: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
           DISCORD_EMBEDS: >-
             [{
@@ -28,7 +27,7 @@ jobs:
               "fields": [
                 {
                   "name": "🔗 Live Site",
-                  "value": "**[ssc.sportgather.com](https://${{ env.PRODUCTION_DOMAIN }})**",
+                  "value": "**[www.yungbenn.com](https://${{ env.PRODUCTION_DOMAIN }})**",
                   "inline": false
                 },
                 {
@@ -53,7 +52,7 @@ jobs:
                 }
               ],
               "footer": {
-                "text": "SportGather Production"
+                "text": "YugnBenn Production"
               },
               "timestamp": "${{ github.event.head_commit.timestamp }}"
             }]
@@ -63,13 +62,14 @@ jobs:
   notify-failure:
     name: Failure Notification
     runs-on: ubuntu-latest
-    # needs: [notify-success]
+    if: failure()
     steps:
       - name: Notify Discord - Failure
         uses: Ilshidur/action-discord@master
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-          DISCORD_USERNAME: "SportGather CI/CD"
+          DISCORD_USERNAME: "YungBenn CI/CD"
+          DISCORD_AVATAR: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
           DISCORD_EMBEDS: >-
             [{
               "title": "🚨 Production Deployment Failed",
@@ -98,7 +98,7 @@ jobs:
                 }
               ],
               "footer": {
-                "text": "SportGather CI/CD • Production Failed"
+                "text": "YungBenn CI/CD • Production Failed"
               },
               "timestamp": "${{ github.event.head_commit.timestamp }}"
             }]
