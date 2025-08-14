@@ -52,7 +52,7 @@ jobs:
                 }
               ],
               "footer": {
-                "text": "YugnBenn Production"
+                "text": "YungBenn Production"
               },
               "timestamp": "${{ github.event.head_commit.timestamp }}"
             }]
