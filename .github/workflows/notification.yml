@@ -27,7 +27,7 @@ jobs:
               "fields": [
                 {
                   "name": "🔗 Live Site",
-                  "value": "**[`https://${{ env.PRODUCTION_DOMAIN }}`](https://${{ env.PRODUCTION_DOMAIN }})**",
+                  "value": "**[ssc.sportgather.com](https://${{ env.PRODUCTION_DOMAIN }})**",
                   "inline": false
                 },
                 {
@@ -42,7 +42,7 @@ jobs:
                 },
                 {
                   "name": "⏰ Time",
-                  "value": "<t:${{ github.event.head_commit.timestamp }}:f>",
+                  "value": "<t:${{ github.event.head_commit.timestamp }}:R>",
                   "inline": true
                 },
                 {
