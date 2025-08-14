@@ -33,12 +33,12 @@ jobs:
                 {
                   "name": "👨‍💻 Deployed by",
                   "value": "${{ github.actor }}",
-                  "inline": true
+                  "inline": false
                 },
                 {
                   "name": "🌿 Branch",
                   "value": "${{ github.ref_name }}",
-                  "inline": true
+                  "inline": false
                 },
                 {
                   "name": "💬 What Changed",
