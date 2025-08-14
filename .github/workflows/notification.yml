@@ -21,16 +21,18 @@ jobs:
           DISCORD_AVATAR: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
           DISCORD_EMBEDS: >-
             [{
-              "title": "🎉 Production Deployment Successful",
-              "description": "New version is now live in production! 🚀",
-              "color": 3066993,
-              "thumbnail": {
-                "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-              },
+              "title": "✅ Production Deployment Complete",
+              "description": "**${{ github.repository }}** has been successfully deployed to production",
+              "color": 5763719,
               "fields": [
                 {
-                  "name": "📦 Repository",
-                  "value": "SportGather/sportgather-ssc-dashboard",
+                  "name": "🔗 Live Site",
+                  "value": "**[https://${{ env.PRODUCTION_DOMAIN }}](https://${{ env.PRODUCTION_DOMAIN }})**",
+                  "inline": false
+                },
+                {
+                  "name": "👨‍💻 Deployed by",
+                  "value": "${{ github.actor }}",
                   "inline": true
                 },
                 {
@@ -39,39 +41,23 @@ jobs:
                   "inline": true
                 },
                 {
-                  "name": "👤 Author",
-                  "value": "${{ github.actor }}",
+                  "name": "⏰ Time",
+                  "value": "<t:${{ github.event.head_commit.timestamp }}:f>",
                   "inline": true
                 },
                 {
-                  "name": "🚀 Environment",
-                  "value": "Production",
-                  "inline": true
-                },
-                {
-                  "name": "🌐 Live URL",
-                  "value": "[Visit Site](https://${{ env.PRODUCTION_DOMAIN }})",
-                  "inline": true
-                },
-                {
-                  "name": "📅 Deployed",
-                  "value": "${{ github.event.head_commit.timestamp }}",
-                  "inline": true
-                },
-                {
-                  "name": "💬 Commit Message",
+                  "name": "💬 What Changed",
                   "value": "${{ github.event.head_commit.message }}",
                   "inline": false
                 },
                 {
-                  "name": "🔗 Commit Hash",
+                  "name": "🔍 Commit Details",
                   "value": "[`${{ github.sha }}`](${{ github.event.head_commit.url }})",
                   "inline": false
                 }
               ],
               "footer": {
-                "text": "SportGather CI/CD • Production",
-                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                "text": "SportGather Production"
               },
               "timestamp": "${{ github.event.head_commit.timestamp }}"
             }]
