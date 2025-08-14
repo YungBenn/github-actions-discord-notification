@@ -79,17 +79,17 @@ jobs:
                 {
                   "name": "📦 Repository",
                   "value": "${{ github.repository }}",
-                  "inline": true
+                  "inline": false
                 },
                 {
                   "name": "🌿 Branch",
                   "value": "${{ github.ref_name }}",
-                  "inline": true
+                  "inline": false
                 },
                 {
                   "name": "👤 Author",
                   "value": "${{ github.actor }}",
-                  "inline": true
+                  "inline": false
                 },
                 {
                   "name": "🔗 Workflow",
