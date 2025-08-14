@@ -1,0 +1,21 @@
+name: Notification
+
+on:
+    push:
+        branches: [master]
+
+jobs:
+    Notify:
+        name: Discord notification
+        runs-on: ubuntu-latest
+        steps:
+            - name: Discord notification
+              env:
+                DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+              uses: Ilshidur/action-discord@master
+              with:
+                args: |
+                    📊 **Deployment Summary**
+                    **Repository:** ${{ github.repository }}
+                    **Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
