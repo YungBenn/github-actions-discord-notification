@@ -1,21 +1,125 @@
 name: Notification
 
 on:
-    push:
-        branches: [master]
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+env:
+  PRODUCTION_DOMAIN: ssc.sportgather.com
 
 jobs:
-    Notify:
-        name: Discord notification
-        runs-on: ubuntu-latest
-        steps:
-            - name: Discord notification
-              env:
-                DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-              uses: Ilshidur/action-discord@master
-              with:
-                args: |
-                    📊 **Deployment Summary**
-                    **Repository:** ${{ github.repository }}
-                    **Workflow Run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  notify-success:
+    name: Success Notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Discord - Success
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: "SportGather CI/CD"
+          DISCORD_AVATAR: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+          DISCORD_EMBEDS: >-
+            [{
+              "title": "🎉 Production Deployment Successful",
+              "description": "New version is now live in production! 🚀",
+              "color": 3066993,
+              "thumbnail": {
+                "url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              },
+              "fields": [
+                {
+                  "name": "📦 Repository",
+                  "value": "${{ github.repository }}",
+                  "inline": true
+                },
+                {
+                  "name": "🌿 Branch",
+                  "value": "${{ github.ref_name }}",
+                  "inline": true
+                },
+                {
+                  "name": "👤 Author",
+                  "value": "${{ github.actor }}",
+                  "inline": true
+                },
+                {
+                  "name": "🚀 Environment",
+                  "value": "Production",
+                  "inline": true
+                },
+                {
+                  "name": "🌐 Live URL",
+                  "value": "[Visit Site](https://${{ env.PRODUCTION_DOMAIN }})",
+                  "inline": true
+                },
+                {
+                  "name": "📅 Deployed",
+                  "value": "<t:${{ github.event.head_commit.timestamp }}:R>",
+                  "inline": true
+                },
+                {
+                  "name": "💬 Commit Message",
+                  "value": "${{ github.event.head_commit.message }}",
+                  "inline": false
+                },
+                {
+                  "name": "🔗 Commit Hash",
+                  "value": "[`${{ github.sha }}`](${{ github.event.head_commit.url }})",
+                  "inline": false
+                }
+              ],
+              "footer": {
+                "text": "SportGather CI/CD • Production",
+                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+              },
+              "timestamp": "${{ github.event.head_commit.timestamp }}"
+            }]
+        with: 
+          args: '@here Production deployment success!'
 
+  notify-failure:
+    name: Failure Notification
+    runs-on: ubuntu-latest
+    if: failure()
+    needs: [notify-success]
+    steps:
+      - name: Notify Discord - Failure
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: "SportGather CI/CD"
+          DISCORD_EMBEDS: >-
+            [{
+              "title": "🚨 Production Deployment Failed",
+              "description": "Deployment to production has failed and requires attention!",
+              "color": 15158332,
+              "fields": [
+                {
+                  "name": "📦 Repository",
+                  "value": "${{ github.repository }}",
+                  "inline": true
+                },
+                {
+                  "name": "🌿 Branch",
+                  "value": "${{ github.ref_name }}",
+                  "inline": true
+                },
+                {
+                  "name": "👤 Author",
+                  "value": "${{ github.actor }}",
+                  "inline": true
+                },
+                {
+                  "name": "🔗 Workflow",
+                  "value": "[View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})",
+                  "inline": false
+                }
+              ],
+              "footer": {
+                "text": "SportGather CI/CD • Production Failed"
+              },
+              "timestamp": "${{ github.event.head_commit.timestamp }}"
+            }]
+        with:
+          args: '@here Production deployment failed!'
