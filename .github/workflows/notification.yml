@@ -12,6 +12,7 @@ jobs:
   notify-success:
     name: Success Notification
     runs-on: ubuntu-latest
+    if: failure()
     steps:
       - name: Notify Discord - Success
         uses: Ilshidur/action-discord@master
@@ -62,7 +63,6 @@ jobs:
   notify-failure:
     name: Failure Notification
     runs-on: ubuntu-latest
-    if: failure()
     needs: [notify-success]
     steps:
       - name: Notify Discord - Failure
